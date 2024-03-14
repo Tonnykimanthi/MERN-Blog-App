@@ -1,11 +1,16 @@
 import Header from "./layout/Header";
-import Main from "./layout/Main";
+import Home from "./layout/Home";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
   return (
     <div>
-      <Header />
-      <Main />
+      <BrowserRouter>
+        <Header />
+        <Routes>
+          <Route path="/blogs" Component={Home} />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
