@@ -1,14 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import useBlogsContext from "../hooks/useBlogsContext";
 import { ContextType } from "../contexts/BlogsContext";
-
-type Blogs = {
-  _id: number;
-  author: string;
-  title: string;
-  content: string;
-  createdAt: string;
-}[];
 
 const Main = () => {
   const { state, dispatch } = useBlogsContext() as ContextType;
