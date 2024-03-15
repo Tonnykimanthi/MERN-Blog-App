@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import useBlogsContext from "../hooks/useBlogsContext";
+import { ContextType } from "../contexts/BlogsContext";
 
 type Blogs = {
   _id: number;
@@ -9,7 +11,7 @@ type Blogs = {
 }[];
 
 const Main = () => {
-  const [blogs, setBlogs] = useState<Blogs | null>([]);
+  const { state, dispatch } = useBlogsContext() as ContextType;
 
   useEffect(() => {
     const handleFetch = async () => {
@@ -17,7 +19,7 @@ const Main = () => {
       const json = await res.json();
 
       if (res.ok) {
-        setBlogs(json);
+        dispatch({ type: "get_blogs", payload: json });
       }
     };
 
@@ -34,7 +36,7 @@ const Main = () => {
       </h2>
 
       <section className="mt-4 space-y-2">
-        {blogs?.map((blog) => (
+        {state.blogs?.map((blog) => (
           <article
             key={blog._id}
             className="max-w-lg bg-slate-50 p-4 sm:min-w-96"

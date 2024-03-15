@@ -1,5 +1,5 @@
 import Header from "./layout/Header";
-import Home from "./layout/Home";
+import Home from "./pages/Home";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
@@ -8,7 +8,7 @@ function App() {
       <BrowserRouter>
         <Header />
         <Routes>
-          <Route path="/blogs" Component={Home} />
+          <Route path="/" Component={Home} />
         </Routes>
       </BrowserRouter>
     </div>
