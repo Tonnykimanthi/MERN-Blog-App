@@ -11,6 +11,17 @@ const getBlogs = async (req, res) => {
   }
 };
 
+// Get single blog
+const getSingleBlog = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const blog = await Blog.findById(id);
+    res.status(200).json(blog);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
 // Create a new blog
 const createBlog = async (req, res) => {
   const { author, title, content } = req.body;
@@ -28,8 +39,8 @@ const createBlog = async (req, res) => {
 const updateBlog = async (req, res) => {
   const { id } = req.params;
   try {
-    const blog = await Blog.findByIdAndUpdate(id, req.body)
-    res.status(200).json(blog)
+    const blog = await Blog.findByIdAndUpdate(id, req.body);
+    res.status(200).json(blog);
   } catch (error) {
     console.log("Update failed");
     res.status(400).json({ error: error.message });
@@ -58,4 +69,5 @@ module.exports = {
   createBlog,
   updateBlog,
   deleteBlog,
+  getSingleBlog,
 };

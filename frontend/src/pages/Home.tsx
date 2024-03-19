@@ -1,12 +1,13 @@
 import { useEffect } from "react";
 import useBlogsContext from "../hooks/useBlogsContext";
 import { ContextType } from "../contexts/BlogsContext";
+import BlogDetails from "../components/BlogDetails";
 
-const Main = () => {
+const Home = () => {
   const { state, dispatch } = useBlogsContext() as ContextType;
 
   useEffect(() => {
-    const handleFetch = async () => {
+    const fetchBlogs = async () => {
       const res = await fetch("http://localhost:4000/blogs");
       const json = await res.json();
 
@@ -15,37 +16,23 @@ const Main = () => {
       }
     };
 
-    handleFetch();
-  }, []);
+    fetchBlogs();
+  }, [dispatch]);
 
   return (
     <main className="mt-5 flex flex-col items-center">
       <h2 className="text-3xl font-bold">
         Blogs{" "}
         <span className="align-middle text-base font-medium text-slate-500">
-          (3 blogs)
+          ({state.blogs.length})
         </span>
       </h2>
 
       <section className="mt-4 space-y-2">
-        {state.blogs?.map((blog) => (
-          <article
-            key={blog._id}
-            className="max-w-lg bg-slate-50 p-4 sm:min-w-96"
-          >
-            <h4 className="font-medium text-slate-500">
-              author ({blog.author})
-            </h4>
-            <h3 className="text-2xl font-medium">{blog.title}</h3>
-            <p className="leading-tight">{blog.content}</p>
-            <small className="mt-2 block text-sm text-slate-600">
-              {new Date(blog.createdAt).toDateString()}
-            </small>
-          </article>
-        ))}
+        {state.blogs?.map((blog) => <BlogDetails key={blog._id} blog={blog} />)}
       </section>
     </main>
   );
 };
 
-export default Main;
+export default Home;
