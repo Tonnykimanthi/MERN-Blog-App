@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Blog, ContextType } from "../contexts/BlogsContext";
 import useBlogsContext from "../hooks/useBlogsContext";
 
@@ -23,9 +24,12 @@ const BlogDetails = ({ blog }: BlogDetails) => {
         <h4 className="font-medium text-slate-500">author ({blog.author})</h4>
         <h3 className="text-2xl font-medium">{blog.title}</h3>
         <p className="leading-tight">{blog.content}</p>
-        <small className="mt-2 block text-sm text-slate-600">
-          {new Date(blog.createdAt).toDateString()}
-        </small>
+        <Link
+          to={`blogs/${blog._id}`}
+          className="mt-2 inline-block rounded-sm bg-black px-2 py-1 text-sm text-white"
+        >
+          Read more
+        </Link>
       </article>
       <button className="self-start text-red-500" onClick={handleDelete}>
         Delete

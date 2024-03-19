@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import EditBlogForm from "../components/EditBlogForm";
 
 type Blog = {
   _id: string;
@@ -11,13 +13,12 @@ type Blog = {
 const Blog = () => {
   const [blog, setBlog] = useState<Blog | null>(null);
   const [isLoading, setiSLoading] = useState(true);
+  const id = useParams();
 
   useEffect(() => {
     const fetchBlog = async () => {
       try {
-        const res = await fetch(
-          "http://localhost:4000/blogs/65f80be85497996aadc9049a",
-        );
+        const res = await fetch(`http://localhost:4000/blogs/${id.id}`);
         const json = await res.json();
 
         if (res.ok) {
@@ -37,6 +38,7 @@ const Blog = () => {
       {isLoading && <p>isLoading...</p>}
       {!isLoading && blog && (
         <article className="flex flex-col px-5">
+          <EditBlogForm _id={blog._id} _author={blog.author} _title={blog.title} _content={blog.content}/>
           <div className="relative">
             <h5 className="mx-auto max-w-3xl text-center text-3xl font-medium">
               {blog.title}
@@ -46,7 +48,7 @@ const Blog = () => {
             </span>
           </div>
           <p className="mt-2 text-center text-lg leading-tight">
-            {blog?.content}
+            {blog.content}
           </p>
           <p className="mt-2 self-center font-medium">
             Written by: {blog.author}

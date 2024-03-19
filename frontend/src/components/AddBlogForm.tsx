@@ -9,8 +9,10 @@ const AddBlogForm = () => {
   const [author, setAuthor] = useState("");
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleCreateBlog = async () => {
+    setIsLoading(true);
     const blog = { author, title, content };
     const res = await fetch("http://localhost:4000/blogs/create", {
       method: "POST",
@@ -27,6 +29,7 @@ const AddBlogForm = () => {
       setTitle("");
       setContent("");
       setFormIsOpen(false);
+      setIsLoading(false);
       dispatch({ type: "create_blog", payload: json });
     }
   };
@@ -66,7 +69,7 @@ const AddBlogForm = () => {
 
       <input
         type="button"
-        value="Create blog"
+        value={isLoading ? "Adding..." : "Create blog"}
         className="mx-auto block w-40 cursor-pointer rounded bg-sky-400 py-2 text-white transition hover:bg-sky-500"
         onClick={handleCreateBlog}
       />

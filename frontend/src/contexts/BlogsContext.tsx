@@ -21,6 +21,8 @@ export type ContextType = {
   dispatch: React.Dispatch<Action>;
   formIsOpen: boolean;
   setFormIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  editFormIsOpen: boolean;
+  setEditFormIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const blogsReducer = (state: BlogsState, action: Action) => {
@@ -38,6 +40,10 @@ const blogsReducer = (state: BlogsState, action: Action) => {
         ...state,
         blogs: [action.payload, ...state.blogs],
       };
+    case "update_blog":
+      return {
+        blogs: action.payload,
+      };
     case "delete_blog":
       return {
         blogs: state.blogs.filter((blog: Blog) => blog._id !== action.payload),
@@ -51,10 +57,18 @@ export const blogsContext = createContext<ContextType | null>(null);
 const BlogsContextProvider = ({ children }: { children: React.ReactNode }) => {
   const [state, dispatch] = useReducer(blogsReducer, { blogs: [] });
   const [formIsOpen, setFormIsOpen] = useState(false);
+  const [editFormIsOpen, setEditFormIsOpen] = useState(false);
 
   return (
     <blogsContext.Provider
-      value={{ state, dispatch, formIsOpen, setFormIsOpen }}
+      value={{
+        state,
+        dispatch,
+        formIsOpen,
+        setFormIsOpen,
+        editFormIsOpen,
+        setEditFormIsOpen,
+      }}
     >
       {children}
     </blogsContext.Provider>
